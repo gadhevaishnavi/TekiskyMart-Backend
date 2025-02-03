@@ -1,8 +1,10 @@
 import express from 'express'
-import { createUser } from '../controllers/studentController.js'
+import { registerController } from '../controllers/studentController.js'
+import { register } from 'module'
+
 let userRoute = express.Router()
 
-userRoute.post('/register',createUser)
+userRoute.post('/register',registerController)
 
 
 export default userRoute
