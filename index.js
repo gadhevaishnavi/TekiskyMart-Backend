@@ -2,7 +2,7 @@ import express from 'express'
 const app=express() //it create instance of application
 import dbConnect from './db/connection.js'
 import dotenv from 'dotenv'
-import userRoute from './routers/studentRoute.js'
+import userRoute from './routers/userRoute.js'
 dotenv.config()//it will load .env file varaibles into process.env object
 let port=process.env.PORT 
 
