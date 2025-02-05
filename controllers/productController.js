@@ -6,7 +6,7 @@ export const getProduct = async (req, res) => {
     const products = await getProductService();
 
     // Sending a successful response with products
-    res.status(200).json({ success: true, products:[]});
+    res.status(200).json({ success: true, products});
 
   } catch (error) {
     console.error("Error in getting products:", error);
@@ -110,62 +110,5 @@ export const deleteProduct = async (req, res) => {
   }
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// export const createProduct = async (req, res) => {
-//     try {
-//         const { name, price, description, category } = req.body;
-
-//         // Validate required fields
-//         if (!name || !price || !description || !category) {
-//             return res.status(400).json({ success: false, message: "All fields are required" });
-//         }
-
-//         // Ensure price is a number
-//         const parsedPrice = parseFloat(price);
-//         if (isNaN(parsedPrice)) {
-//             return res.status(400).json({ success: false, message: "Price must be a valid number" });
-//         }
-
-//         // Create a new product instance
-//         const newProduct = new Product({ 
-//             name, 
-//             price: parsedPrice, // Ensure price is stored as a number
-//             description, 
-//             category 
-//         });
-
-//         // Save to MongoDB
-//         const savedProduct = await newProduct.save();
-
-//         res.status(201).json({ success: true, message: "Product created successfully", product: savedProduct });
-//     } catch (error) {
-//         console.error("Error creating product:", error.message);
-//         res.status(500).json({ success: false, message: "Internal server error" });
-//     }
-// };
 
   
