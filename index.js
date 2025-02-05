@@ -1,4 +1,5 @@
 import express from 'express'
+import cors from 'cors';
 const app=express() //it create instance of application
 import dbConnect from './db/connection.js'
 import dotenv from 'dotenv'
@@ -15,6 +16,8 @@ let port=process.env.PORT || 5000
 //for establishing connection with DB
 dbConnect(process.env.DBURL,process.env.DBNAME)
 
+// Middleware
+app.use(cors()); // Enable CORS for all requests
 //express parser 
 app.use(express.json())//it parser provided by express
 
