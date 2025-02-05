@@ -25,5 +25,5 @@ const enquirySchema = new mongoose.Schema({
   }
 });
 
-const PreOrder = mongoose.model('preorder', enquirySchema);
+const PreOrder = mongoose.model('enquiry', enquirySchema);
 export default PreOrder;
