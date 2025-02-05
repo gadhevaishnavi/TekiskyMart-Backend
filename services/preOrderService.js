@@ -1,39 +1,47 @@
 import PreOrder from '../models/preOrderModel.js';
+ // Create a new pre-order
 
-// Create a new pre-order
-export const createPreOrder = async (data) => {
+export const createPreOrder = async (preOrderData) => {
   try {
-    const newPreOrder = new PreOrder(data);
-    await newPreOrder.save();
-    return newPreOrder;
+    const preOrder = new PreOrder(preOrderData);
+    return await preOrder.save();
   } catch (error) {
-    throw new Error('Error creating pre-order: ' + error.message);
+    throw new Error(error.message);
   }
 };
 
-// Get all pre-orders
-export const getPreOrders = async () => {
+ // Get all pre-orders
+ 
+export const getAllPreOrders = async () => {
   try {
-    const preOrders = await PreOrder.find().populate('customerId productId');
-    return preOrders;
+    return await PreOrder.find();
   } catch (error) {
-    throw new Error('Error fetching pre-orders: ' + error.message);
+    throw new Error(error.message);
   }
 };
 
-// Update pre-order status (accept/reject)
-export const updatePreOrderStatus = async (preOrderId, status) => {
+ // Get a pre-order by ID
+export const getPreOrderById = async (id) => {
   try {
-    const updatedPreOrder = await PreOrder.findByIdAndUpdate(
-      preOrderId,
-      { status },
-      { new: true }
-    );
-    if (!updatedPreOrder) {
-      throw new Error('Pre-order not found');
-    }
-    return updatedPreOrder;
+    return await PreOrder.findById(id);
   } catch (error) {
-    throw new Error('Error updating pre-order status: ' + error.message);
+    throw new Error(error.message);
+  }
+};
+ // Update a pre-order by ID
+export const updatePreOrderById = async (id, updateData) => {
+  try {
+    return await PreOrder.findByIdAndUpdate(id, updateData, { new: true, runValidators: true });
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+//Delete a pre-order by ID
+export const deletePreOrderById = async (id) => {
+  try {
+    return await PreOrder.findByIdAndDelete(id);
+  } catch (error) {
+    throw new Error(error.message);
   }
 };

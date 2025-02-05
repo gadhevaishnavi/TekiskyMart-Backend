@@ -21,17 +21,17 @@ export const verifyToken=async(token,email)=>{
 }
 
 export const authenticateToken = (req, res, next) => {
-  const authHeader = req.headers.authorization;
-  if (!authHeader) {
-    return res.status(401).json({ message: "Unauthorized: No token provided" });
+  const token = req.header('Authorization')?.split(' ')[1]; // Extract the token from the Authorization header
+
+  if (!token) {
+    return res.status(401).json({ success: false, message: 'Access Denied. No Token Provided.' });
   }
 
-  const token = authHeader.split(' ')[1];
-  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-    if (err) {
-      return res.status(403).json({ message: "Forbidden: Invalid token" });
-    }
-    req.user = user;
-    next();
-  });
+  try {
+    const verified = jwt.verify(token, process.env.JWT_SECRET); // Verify the token using your secret key
+    req.user = verified; // Attach user info to the request object
+    next(); // Pass control to the next middleware or route handler
+  } catch (error) {
+    res.status(403).json({ success: false, message: 'Invalid Token' });
+  }
 };

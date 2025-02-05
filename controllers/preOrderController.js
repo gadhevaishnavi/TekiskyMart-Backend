@@ -1,36 +1,66 @@
-import { createPreOrder, getPreOrders, updatePreOrderStatus } from '../services/preOrderService.js';
+import {
+  createPreOrder,
+  getAllPreOrders,
+  getPreOrderById,
+  updatePreOrderById,
+  deletePreOrderById,
+} from '../services/preOrderService.js';
 
-// Create a new pre-order
-export const createPreOrderController = async (req, res) => {
-  const { customerId, productId, quantity } = req.body;
-
+// Controller to create a new pre-order
+export const handleCreatePreOrder = async (req, res) => {
   try {
-    const preOrderData = { customerId, productId, quantity };
-    const newPreOrder = await createPreOrder(preOrderData);
-    res.status(201).json({ message: 'Pre-order created successfully', preOrder: newPreOrder });
+    const preOrder = await createPreOrder(req.body);
+    res.status(201).json({ success: true, data: preOrder });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(400).json({ success: false, message: error.message });
   }
 };
 
-// Get all pre-orders
-export const getPreOrdersController = async (req, res) => {
+// Controller to get all pre-orders
+export const handleGetAllPreOrders = async (req, res) => {
   try {
-    const preOrders = await getPreOrders();
-    res.status(200).json({ preOrders });
+    const preOrders = await getAllPreOrders();
+    res.status(200).json({ success: true, data: preOrders });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
-// Update pre-order status (accept/reject)
-export const updatePreOrderStatusController = async (req, res) => {
-  const { preOrderId, status } = req.params;
-
+// Controller to get a single pre-order by ID
+export const handleGetPreOrderById = async (req, res) => {
   try {
-    const updatedPreOrder = await updatePreOrderStatus(preOrderId, status);
-    res.status(200).json({ message: 'Pre-order status updated successfully', preOrder: updatedPreOrder });
+    const preOrder = await getPreOrderById(req.params.id);
+    if (!preOrder) {
+      return res.status(404).json({ success: false, message: 'Pre-order not found' });
+    }
+    res.status(200).json({ success: true, data: preOrder });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// Controller to update a pre-order by ID
+export const handleUpdatePreOrderById = async (req, res) => {
+  try {
+    const updatedPreOrder = await updatePreOrderById(req.params.id, req.body);
+    if (!updatedPreOrder) {
+      return res.status(404).json({ success: false, message: 'Pre-order not found' });
+    }
+    res.status(200).json({ success: true, data: updatedPreOrder });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
+
+// Controller to delete a pre-order by ID
+export const handleDeletePreOrderById = async (req, res) => {
+  try {
+    const deletedPreOrder = await deletePreOrderById(req.params.id);
+    if (!deletedPreOrder) {
+      return res.status(404).json({ success: false, message: 'Pre-order not found' });
+    }
+    res.status(200).json({ success: true, data: deletedPreOrder });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
   }
 };

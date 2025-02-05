@@ -1,16 +1,20 @@
 import express from 'express';
-import { createPreOrderController, getPreOrdersController, updatePreOrderStatusController } from '../controllers/preOrderController.js';
-import { authenticateToken } from '../auth/jwtToken.js'; // assuming you have a token authentication function
+import {
+  handleCreatePreOrder,
+  handleGetAllPreOrders,
+  handleGetPreOrderById,
+  handleUpdatePreOrderById,
+  handleDeletePreOrderById,
+} from '../controllers/preOrderController.js';
+import { authenticateToken } from '../auth/jwtToken.js'; // Authentication middleware
 
 const preOrderRoute = express.Router();
 
-// Route to create a pre-order
-preOrderRoute.post('/order', createPreOrderController);
-
-// Route to get all pre-orders (authentication required)
-preOrderRoute.get('/getPreOrders', authenticateToken, getPreOrdersController);
-
-// Route to update pre-order status (accept/reject) (authentication required)
-preOrderRoute.put('/update/:preOrderId/:status', authenticateToken, updatePreOrderStatusController);
+// Protected routes with authenticateToken middleware
+preOrderRoute.post('/', authenticateToken, handleCreatePreOrder); // Create a pre-order
+preOrderRoute.get('/', authenticateToken, handleGetAllPreOrders); // Get all pre-orders
+preOrderRoute.get('/:id', authenticateToken, handleGetPreOrderById); // Get pre-order by ID
+preOrderRoute.put('/:id', authenticateToken, handleUpdatePreOrderById); // Update pre-order by ID
+preOrderRoute.delete('/:id', authenticateToken, handleDeletePreOrderById); // Delete pre-order by ID
 
 export default preOrderRoute;
