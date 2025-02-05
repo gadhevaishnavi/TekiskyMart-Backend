@@ -16,16 +16,4 @@ export let registerController=async(req,res)=>{
     }
 }
 
-
-
-
-// export const getProduct = async (req, res) => {
-//     try {
-//       const products = await getProductService();
-//       res.status(200).json({ success: true, products: products });
-//     } catch (error) {
-//       console.error("Error in getting products:", error);
-//       res.status(500).json({ status: "error", message: "Error in getting products" });
-//     }
-//   };
   

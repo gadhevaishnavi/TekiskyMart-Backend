@@ -1,19 +1,3 @@
-// export const getProductService = async () => {
-//     try {
-//         // Fetch all products from the database using Mongoose
-//         const products = await ProductModel.find();
-//         // const {availableStockQty} = products
-//         //console.log(availableStockQt)
-
-
-//         return products; // Return the fetched products
-//     } catch (error) {
-//         // Handle any errors that occur during the retrieval
-//         console.error('Error in fetching products:', error);
-//         throw new Error('Error in fetching products');
-//     }
-// };
-
 import ProductModel from "../models/productModel.js";
 
 export const getProductService = async () => {
@@ -27,7 +11,7 @@ export const getProductService = async () => {
 
 
 
-
+  //added new 
   export const CreateProductSerivce = async (data, imageUrl) => {
     const productId = await generateProductId();
     try {

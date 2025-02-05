@@ -1,5 +1,3 @@
-
-
 import productModel from "../models/productModel.js";
 import { getProductService } from "../services/productService.js";
 
@@ -20,20 +18,10 @@ export const getProduct = async (req, res) => {
 
 
 
-
-
-
 export const createProduct = async (req, res) => {
     try {
         // Destructure fields from the request body
         const { name, heading, offerprice, description, mrp, WeightSize, category, Seller, images } = req.body;
-
-        // Check if all required fields are present
-        // if (!name || !heading || !offerprice || !description || !mrp || !WeightSize || !category || !Seller) {
-        //     return res.status(400).json({ success: false, message: "All fields are required" });
-        // }
-
-        
 
         // If files are uploaded, handle them
         if (req.files && req.files.length > 0) {

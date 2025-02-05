@@ -5,10 +5,6 @@ import dotenv from 'dotenv'
 import userRoute from './routers/userRoute.js'
 import productRoute from './routers/productsRoute.js'
 
-// import multer from "multer";
-// import path from "path";
-
-
 dotenv.config()//it will load .env file varaibles into process.env object
 let port=process.env.PORT || 5000
 
