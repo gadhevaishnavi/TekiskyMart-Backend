@@ -1,5 +1,6 @@
 import productModel from "../models/productModel.js";
 import { getProductService } from "../services/productService.js";
+import mongoose from "mongoose";
 
 export const getProduct = async (req, res) => {
   try {
@@ -20,7 +21,12 @@ export const getProduct = async (req, res) => {
 
 export const getProductById = async (req, res) => {
     try {
-        const productId = req.params.productId
+        const { productId } = req.params; // ✅ Correctly extract product ID
+
+        // ✅ Validate if `productId` is a valid MongoDB ObjectId
+        if (!mongoose.Types.ObjectId.isValid(productId)) {
+            return res.status(400).json({ message: "Invalid Product ID" });
+        }
 
         const product = await productModel.findById(productId);
         
@@ -28,7 +34,7 @@ export const getProductById = async (req, res) => {
             return res.status(404).json({ message: "Product not found" });
         }
 
-        res.status(200).json(product);
+        res.status(200).json({ success: true, product }); // ✅ Consistent JSON response
     } catch (error) {
         res.status(500).json({ message: "Server error", error: error.message });
     }
