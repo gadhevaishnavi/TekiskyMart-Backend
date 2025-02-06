@@ -1,16 +1,20 @@
-import express from 'express';
-import { createEnquiryController, getEnquiriesController, updateEnquiryStatusController } from '../controllers/clientController.js';
+import express from "express";
+import {
+  createEnquiryController,
+  getAllEnquiriesController,
+  getEnquiryByIdController,
+  updateEnquiryController,
+  deleteEnquiryController,
+} from "../controllers/clientController.js";
 
 const clientRoute = express.Router();
 
-// Route to create a new enquiry
-clientRoute.post('/enquiry', createEnquiryController);
-
-// Route to get all enquiries
-clientRoute.get('/getEnquiry', getEnquiriesController);
-
-// Route to update the status of an enquiry (accept/reject)
-clientRoute.put('/update/:enquiryId/:status', updateEnquiryStatusController);
+clientRoute.post("/enquiries", createEnquiryController); // Create a new enquiry
+clientRoute.get("/enquiries", getAllEnquiriesController); // Get all enquiries
+clientRoute.get("/enquiries/:id", getEnquiryByIdController); // Get enquiry by ID
+clientRoute.put("/enquiries/:id", updateEnquiryController); // Update enquiry by ID
+clientRoute.delete("/enquiries/:id", deleteEnquiryController); // Delete enquiry by ID
 
 export default clientRoute;
+
 

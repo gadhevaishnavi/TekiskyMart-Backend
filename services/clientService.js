@@ -1,39 +1,58 @@
-import Enquiry from '../models/clientModel.js';
+import Client from '../models/clientModel.js';
 
 // Create a new enquiry
-export const createEnquiry = async (data) => {
+const createEnquiry = async (enquiryData) => {
   try {
-    const newEnquiry = new Enquiry(data);
-    await newEnquiry.save();
-    return newEnquiry;
+    const enquiry = new Client(enquiryData);
+    return await enquiry.save();
   } catch (error) {
-    throw new Error('Error creating enquiry: ' + error.message);
+    throw new Error(`Error creating enquiry: ${error.message}`);
   }
 };
 
-// Get all enquiries
-export const getEnquiries = async () => {
+// Retrieve all enquiries
+const getAllEnquiries = async () => {
   try {
-    const enquiries = await Enquiry.find();
-    return enquiries;
+    return await Client.find();
   } catch (error) {
-    throw new Error('Error fetching enquiries: ' + error.message);
+    throw new Error(`Error retrieving enquiries: ${error.message}`);
   }
 };
 
-// Accept or reject an enquiry
-export const updateEnquiryStatus = async (enquiryId, status) => {
+// Retrieve a single enquiry by ID
+const getEnquiryById = async (id) => {
   try {
-    const enquiry = await Enquiry.findByIdAndUpdate(
-      enquiryId,
-      { status },
-      { new: true }
-    );
-    if (!enquiry) {
-      throw new Error('Enquiry not found');
-    }
-    return enquiry;
+    return await Client.findById(id);
   } catch (error) {
-    throw new Error('Error updating enquiry status: ' + error.message);
+    throw new Error(`Error retrieving enquiry: ${error.message}`);
   }
+};
+
+// Update an enquiry by ID
+const updateEnquiry = async (id, updatedData) => {
+  try {
+    return await Client.findByIdAndUpdate(id, updatedData, {
+      new: true, // Return the updated document
+      runValidators: true, // Ensure validation rules are applied
+    });
+  } catch (error) {
+    throw new Error(`Error updating enquiry: ${error.message}`);
+  }
+};
+
+// Delete an enquiry by ID
+const deleteEnquiry = async (id) => {
+  try {
+    return await Client.findByIdAndDelete(id);
+  } catch (error) {
+    throw new Error(`Error deleting enquiry: ${error.message}`);
+  }
+};
+
+export {
+  createEnquiry,
+  getAllEnquiries,
+  getEnquiryById,
+  updateEnquiry,
+  deleteEnquiry,
 };
