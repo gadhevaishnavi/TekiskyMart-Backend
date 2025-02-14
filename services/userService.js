@@ -1,24 +1,35 @@
 import userModel from "../models/userModel.js";
 
-export let getUser = async (email) => {
+//  Get user by email
+export const getUser = async (email) => {
     try {
-        let user = await userModel.findOne({ email }); // Added `await`
+        let user = await userModel.findOne({ email }); // Await the database query
         return user;
     } catch (error) {
-        console.log(`Error in getUser function: ${error}`);
-        return null; // Ensure function always returns a value
+        console.error(`Error in getUser service: ${error}`);
+        return null;
     }
 };
 
+//  Create a new user
+export const createUser = async (data) => {
+    try {
+        let newUser = new userModel(data);
+        await newUser.save();
+        return { success: true, message: "User registered successfully" };
+    } catch (error) {
+        console.error("Error in createUser service:", error);
+        return { success: false, message: "User registration failed" };
+    }
+};
 
-
-export let createUser=async(data)=>{
-try {
-    let u1=new userModel(data)
-    let result=await u1.save()
-    return "success"
-} catch (error) {
-    console.log(error);
-    return "failure"
-}
-}
+// Check if user exists (for registration validation)
+export const checkUserExists = async (email, mobile) => {
+    try {
+        let user = await userModel.findOne({ $or: [{ email }, { mobile }] });
+        return user ? true : false;
+    } catch (error) {
+        console.error("Error in checkUserExists service:", error);
+        return false;
+    }
+};

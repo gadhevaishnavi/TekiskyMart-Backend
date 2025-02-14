@@ -1,9 +1,16 @@
-import express from 'express'
-let userRoute = express.Router()
-import { register,userLogin ,getProfile} from '../controllers/userController.js'
+import express from "express";
+import { register, userLogin } from "../controllers/userController.js";
+import { authenticateToken } from "../auth/jwtToken.js";
 
-userRoute.post('/register',register)
-userRoute.post('/login',userLogin)
-userRoute.get('/profile/:email',getProfile)
+const userRoute = express.Router();
 
-export default userRoute
+// Register a new user
+userRoute.post("/register", register);
+
+// Login user
+userRoute.post("/login", userLogin);
+
+// Get user profile (Protected Route - Requires Token)
+userRoute.get("/profile/:email", authenticateToken);
+
+export default userRoute;
