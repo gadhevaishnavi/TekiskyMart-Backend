@@ -17,7 +17,7 @@ export let getProfile=async(req,res)=>{
         }
         
     } catch (error) {
-        res.status(500).send("error occured")
+        res.status(500).json("error occured")
     }
 }
 
@@ -34,10 +34,10 @@ export let userLogin=async(req,res)=>{
             res.status(200).json(resData)
         }
         else{
-            res.status(400).send("user login failed")
+            res.status(400).json("user login failed")
         }
     } catch (error) {
-        res.status(500).send("error in catch block")
+        res.status(500).json("error in catch block")
         
     }
 
@@ -51,13 +51,13 @@ export let register=async(req,res)=>{
         let hashPassword =await hashPasswordFun(password)
         let status=await createUser({name,mobile,email,password:hashPassword}) 
         if(status=="success"){
-            res.send("success")
+            res.status(200).json("user register successfully")
         }else{
-            res.send("error")
+            res.status(400).json("user register failed")
         }
        
     } catch (error) {
-        console.log(error);
+        res.status(500).json("error in catch block")
     }
 }
 
