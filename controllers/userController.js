@@ -66,16 +66,18 @@ import { hashPasswordFun, validatePassword } from "../helper/encryption.js";
 import { getToken, verifyToken } from "../auth/jwtToken.js";
 
 // Get user profile
-export let getProfile = async (req, res) => {
+   export let getProfile = async (req, res) => {
     let email = req.params.email;
-    let token = req.headers.authorization?.split(" ")[1];
 
-    if (!token) {
+    // Check if the Authorization header exists
+    if (!req.headers.authorization) {
         return res.status(401).json({ message: "Authorization token is missing" });
     }
 
+    let token = req.headers.authorization.split(" ")[1];
+
     try {
-        let flag = await verifyToken(token, email); // Await the token verification
+        let flag = await verifyToken(token, email); // Added `await`
         if (!flag) {
             return res.status(401).json({ message: "Invalid token or unauthorized" });
         }
@@ -93,6 +95,7 @@ export let getProfile = async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 };
+
 
 // User login
 export let userLogin = async (req, res) => {
